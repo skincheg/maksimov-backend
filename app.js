@@ -151,6 +151,8 @@ app.post(
 
         const landmarkId = +new Date()
 
+        console.log(req.body)
+
         Landmark.create({
             id: landmarkId,
             name: req.body.name,
