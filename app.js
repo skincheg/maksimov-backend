@@ -159,8 +159,6 @@ app.post(
             description: req.body.description,
             address: req.body.address,
             price: req.body.price,
-            latitude: req.body.latitude,
-            longitude: req.body.longitude
         }).then(landmark => res.status(200).json({ landmark, errors: [] }));
 
     },
