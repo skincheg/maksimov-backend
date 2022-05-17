@@ -102,7 +102,7 @@ app.post(
                             "param": "password",
                             "location": "body"
                         },
-                ] });
+                    ] });
             }
         }
 
@@ -151,12 +151,16 @@ app.post(
 
         const landmarkId = +new Date()
 
+        console.log(req.body)
+
         Landmark.create({
             id: landmarkId,
             name: req.body.name,
             description: req.body.description,
             address: req.body.address,
             price: req.body.price,
+            latitude: req.body.latitude,
+            longitude: req.body.longitude
         }).then(landmark => res.status(200).json({ landmark, errors: [] }));
 
     },
@@ -254,7 +258,6 @@ async function start() {
         app.listen(process.env.PORT || 3000)
     } catch (e) {
         console.log(e)
-
         // process.exit(1)
     }
 }
