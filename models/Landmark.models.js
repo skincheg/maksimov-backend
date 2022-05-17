@@ -17,10 +17,6 @@ const schema = new Schema({
         type: Number
     }, images: {
         type: Array
-    }, latitude: {
-        type: Number
-    }, longitude: {
-        type: Number
     }
 })
 
