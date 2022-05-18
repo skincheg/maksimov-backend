@@ -5,8 +5,6 @@ const schema = new Schema({
         type: Number,
         required: true,
         unique: true
-    }, name: {
-        type: String,
     }, email: {
         type: String,
         unique: true,

@@ -42,9 +42,6 @@ app.post(
                 }
             });
         }),
-    body('name')
-        .isAlpha('ru-RU', {ignore: ' '})
-        .withMessage('Некорректное имя, может состоять только из русских букв'),
     body('password').isLength({ min: 5 })
         .withMessage('Некорректный пароль, минимальная длина 5 символов'),
     (req, res) => {
@@ -60,7 +57,6 @@ app.post(
 
         User.create({
             id: userId,
-            name: req.body.name,
             email: req.body.email,
             password: password,
         }).then(user => res.status(200).json({ user, errors: [] }));
@@ -249,13 +245,13 @@ app.get("/", (req, res) => {
 
 async function start() {
     try {
-        await mongoose.connect('mongodb://uvkwptlufqg3nirdxvfb:l4YW6lC6yD3VxOmyx2T0@bb6mg4aot6wkw3i-mongodb.services.clever-cloud.com:27017/bb6mg4aot6wkw3i?compressors=zlib', {
+        await mongoose.connect('mongodb://u3tghrhrft3sd0t2gfmd:ywNDIhz8F8Ls2fX2YX2j@butxl3wknct42vv-mongodb.services.clever-cloud.com:27017/butxl3wknct42vv?compressors=zlib', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }) .then(() => console.log("Database connected!"))
             .catch(err => console.log(err));
 
-        app.listen(process.env.PORT || 3000)
+        app.listen(process.env.PORT || 5000)
     } catch (e) {
         console.log(e)
         // process.exit(1)
