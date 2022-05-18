@@ -3,6 +3,8 @@ const cors = require('cors');
 const mongoose = require('mongoose')
 const User = require('./models/User.models')
 const Landmark = require('./models/Landmark.models')
+const Staff = require('./models/Staff.models')
+const Event = require('./models/Event.models')
 const Order = require('./models/Order.models')
 const app = express()
 const bodyParser = require('body-parser')
@@ -115,38 +117,21 @@ app.post(
 );
 
 app.get(
-    '/landmarks/list',
+    '/staff/list',
     async (req, res) => {
-        const landmarks = await Landmark.find()
-        return res.status(200).json({ landmarks });
+        const staff = await Staff.find()
+        return res.status(200).json({ staff });
     }
 );
 
-const handleError = (err, res) => {
-    res
-        .status(500)
-        .contentType("text/plain")
-        .end("Oops! Something went wrong!");
-};
-
-const upload = multer({
-    dest: "./uploads"
-});
-
 app.post(
-    '/landmarks/add',
+    '/staff/add',
     body('name')
         .matches(/^[А-Яа-я0-9,: \-\.]+$/i)
-        .withMessage('Некорректное название, может состоять только из букв и цифр'),
-    body('description')
-        .matches(/^[А-Яа-я0-9,: \-\.]+$/i)
-        .withMessage('Некорректное описание, может состоять только из букв и цифр'),
+        .withMessage('Некорректное ФИО, может состоять только из букв и цифр'),
     body('address')
         .matches(/^[А-Яа-я0-9,: \-\.]+$/i)
         .withMessage('Некорректный адрес, может состоять только из букв и цифр'),
-    body('price')
-        .matches(/^[0-9]+$/i)
-        .withMessage('Некорректная цена, может состоять только из цифр'),
     async (req, res) => {
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);
@@ -158,33 +143,33 @@ app.post(
 
         console.log(req.body)
 
-        Landmark.create({
+        Staff.create({
             id: landmarkId,
             name: req.body.name,
-            description: req.body.description,
+            position: req.body.position,
             address: req.body.address,
-            price: req.body.price,
-            latitude: req.body.latitude,
-            longitude: req.body.longitude
-        }).then(landmark => res.status(200).json({ landmark, errors: [] }));
+            phone: req.body.phone,
+        }).then(staff => res.status(200).json({ staff, errors: [] }));
 
     },
 );
 
+app.get(
+    '/event/list',
+    async (req, res) => {
+        const events = await Event.find()
+        return res.status(200).json({ events });
+    }
+);
+
 app.post(
-    '/landmarks/buy',
-    body('landmarkId')
-        .matches(/^[0-9]+$/i)
-        .withMessage('Некорректный идентификатор, может состоять только из цифр'),
-    body('date')
+    '/event/add',
+    body('name')
         .matches(/^[А-Яа-я0-9,: \-\.]+$/i)
-        .withMessage('Некорректная дата, может состоять только из букв и цифр'),
-    body('price')
-        .matches(/^[0-9]+$/i)
-        .withMessage('Некорректная цена, может состоять только из цифр'),
-    body('userId')
-        .matches(/^[0-9]+$/i)
-        .withMessage('Некорректная цена, может состоять только из цифр'),
+        .withMessage('Некорректное ФИО, может состоять только из букв и цифр'),
+    body('address')
+        .matches(/^[А-Яа-я0-9,: \-\.]+$/i)
+        .withMessage('Некорректный адрес, может состоять только из букв и цифр'),
     async (req, res) => {
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);
@@ -192,65 +177,20 @@ app.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const orderId = +new Date()
+        const landmarkId = +new Date()
 
-        Order.create({
-            id: orderId,
-            landmarkId: req.body.name,
-            price: req.body.price,
+        console.log(req.body)
+
+        Event.create({
+            id: landmarkId,
+            name: req.body.name,
             date: req.body.date,
-            userId: req.body.userId,
-            count: req.body.count
-        }).then(order => res.status(200).json({ order, errors: [] }));
+            address: req.body.address,
+            price: req.body.price,
+        }).then(event => res.status(200).json({ event, errors: [] }));
 
     },
 );
-
-app.get(
-    '/landmarks/order/list',
-    async (req, res) => {
-        const orders = await Order.find({ userId: req.query.userId })
-        return res.status(200).json({ orders });
-    }
-);
-
-app.post(
-    "/landmarks/uploadImage",
-    upload.single("image" /* name attribute of <file> element in your form */),
-    async (req, res) => {
-        const tempPath = req.file.path
-        const name = `${req.body.id}-${+new Date()}.png`
-        const targetPath = path.join(__dirname, `./uploads/${name}`)
-
-        const landmarkly = await Landmark.findOne({ id: req.body.id })
-        landmarkly.images.push(name)
-        await landmarkly.save()
-
-        if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpeg" || path.extname(req.file.originalname).toLowerCase() === ".jpg") {
-            fs.rename(tempPath, targetPath, err => {
-                if (err) return handleError(err, res);
-
-                res
-                    .status(200)
-                    .contentType("text/plain")
-                    .end("File uploaded!");
-            });
-        } else {
-            fs.unlink(tempPath, err => {
-                if (err) return handleError(err, res);
-
-                res
-                    .status(403)
-                    .contentType("text/plain")
-                    .end("Only .png files are allowed!");
-            });
-        }
-    }
-);
-
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, `./uploads/${req.query.id}`));
-});
 
 async function start() {
     try {
