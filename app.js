@@ -126,12 +126,6 @@ app.get(
 
 app.post(
     '/staff/add',
-    body('name')
-        .matches(/^[А-Яа-я0-9,: \-\.]+$/i)
-        .withMessage('Некорректное ФИО, может состоять только из букв и цифр'),
-    body('address')
-        .matches(/^[А-Яа-я0-9,: \-\.]+$/i)
-        .withMessage('Некорректный адрес, может состоять только из букв и цифр'),
     async (req, res) => {
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);
@@ -164,12 +158,6 @@ app.get(
 
 app.post(
     '/event/add',
-    body('name')
-        .matches(/^[А-Яа-я0-9,: \-\.]+$/i)
-        .withMessage('Некорректное ФИО, может состоять только из букв и цифр'),
-    body('address')
-        .matches(/^[А-Яа-я0-9,: \-\.]+$/i)
-        .withMessage('Некорректный адрес, может состоять только из букв и цифр'),
     async (req, res) => {
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);
