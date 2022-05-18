@@ -100,6 +100,15 @@ app.post(
                         },
                     ] });
             }
+        } else {
+            return res.status(400).json({ errors: [
+                    {
+                        "value": req.body.password,
+                        "msg": "Неверный пароль",
+                        "param": "password",
+                        "location": "body"
+                    },
+                ] });
         }
 
     }
