@@ -6,6 +6,8 @@ const Landmark = require('./models/Landmark.models')
 const Staff = require('./models/Staff.models')
 const Event = require('./models/Event.models')
 const Order = require('./models/Order.models')
+const Payment = require('./models/Payment.models')
+const Meeting = require('./models/Meeting.models')
 const app = express()
 const bodyParser = require('body-parser')
 const { body, validationResult, check } = require('express-validator');
@@ -176,6 +178,66 @@ app.post(
             address: req.body.address,
             price: req.body.price,
         }).then(event => res.status(200).json({ event, errors: [] }));
+
+    },
+);
+
+app.get(
+    '/payment/list',
+    async (req, res) => {
+        const payment = await Payment.find()
+        return res.status(200).json({ payment });
+    }
+);
+
+app.post(
+    '/payment/add',
+    async (req, res) => {
+        // Finds the validation errors in this request and wraps them in an object with handy functions
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const landmarkId = +new Date()
+
+
+        Payment.create({
+            id: landmarkId,
+            name: req.body.name,
+            price: req.body.price
+        }).then(payment => res.status(200).json({ payment, errors: [] }));
+
+    },
+);
+
+app.get(
+    '/meeting/list',
+    async (req, res) => {
+        const meeting = await Meeting.find()
+        return res.status(200).json({ meeting });
+    }
+);
+
+app.post(
+    '/meeting/add',
+    async (req, res) => {
+        // Finds the validation errors in this request and wraps them in an object with handy functions
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const landmarkId = +new Date()
+
+
+        Meeting.create({
+            id: landmarkId,
+            date: req.body.date,
+            address: req.body.address,
+            members: req.body.members,
+            accept: req.body.accept,
+        }).then(meeting => res.status(200).json({ meeting, errors: [] }));
 
     },
 );
