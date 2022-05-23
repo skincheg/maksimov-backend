@@ -13,6 +13,8 @@ const schema = new Schema({
         type: String
     }, address : {
         type: String
+    }, birthday: {
+        type: String
     }
 })
 

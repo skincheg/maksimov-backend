@@ -13,7 +13,9 @@ const schema = new Schema({
         type: String
     }, accept : {
         type: String
-    },
+    }, name: {
+        type: String
+    }
 })
 
 module.exports = model('Meeting', schema)

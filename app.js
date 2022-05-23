@@ -145,6 +145,7 @@ app.post(
             position: req.body.position,
             address: req.body.address,
             phone: req.body.phone,
+            birthday: req.body.birthday
         }).then(staff => res.status(200).json({ staff, errors: [] }));
 
     },
@@ -237,6 +238,7 @@ app.post(
             address: req.body.address,
             members: req.body.members,
             accept: req.body.accept,
+            name: req.body.name
         }).then(meeting => res.status(200).json({ meeting, errors: [] }));
 
     },
