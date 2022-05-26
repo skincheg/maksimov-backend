@@ -63,6 +63,7 @@ app.post(
             id: userId,
             email: req.body.email,
             password: password,
+            isAdmin: false
         }).then(user => res.status(200).json({ user, errors: [] }));
     },
 );
