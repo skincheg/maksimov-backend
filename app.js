@@ -161,7 +161,7 @@ app.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const staff = Staff.findOne({ id: req.body.id })
+        const staff = await Staff.findOne({ id: req.body.id })
 
         staff.name = req.body.name
         staff.position = req.body.position
@@ -215,7 +215,7 @@ app.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const event = Event.findOne({ id: req.body.id })
+        const event = await Event.findOne({ id: req.body.id })
 
         event.name = req.body.name
         event.date = req.body.date
@@ -265,7 +265,7 @@ app.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const payment = Payment.findOne({ id: req.body.id })
+        const payment = await Payment.findOne({ id: req.body.id })
 
         payment.name = req.body.name
         payment.price = req.body.price
@@ -316,7 +316,7 @@ app.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const meeting = Meeting.findOne({ id: req.body.id })
+        const meeting = await Meeting.findOne({ id: req.body.id })
 
         meeting.name = req.body.name
         meeting.accept = req.body.accept
