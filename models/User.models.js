@@ -16,7 +16,8 @@ const schema = new Schema({
     }, lastLogin: {
         type: Number
     }, isAdmin: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 })
 
