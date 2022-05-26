@@ -151,6 +151,28 @@ app.post(
     },
 );
 
+app.post(
+    '/staff/edit',
+    async (req, res) => {
+        // Finds the validation errors in this request and wraps them in an object with handy functions
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const staff = Staff.findOne({ id: req.body.id })
+
+        staff.name = req.body.name
+        staff.position = req.body.position
+        staff.address = req.body.address
+        staff.phone = req.body.phone
+        staff.birthday = req.body.birthday
+        await staff.save()
+
+        return res.status(200).json({staff, errors: []})
+    },
+);
+
 app.get(
     '/event/list',
     async (req, res) => {
@@ -183,6 +205,27 @@ app.post(
     },
 );
 
+app.post(
+    '/event/edit',
+    async (req, res) => {
+        // Finds the validation errors in this request and wraps them in an object with handy functions
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const event = Event.findOne({ id: req.body.id })
+
+        event.name = req.body.name
+        event.date = req.body.date
+        event.address = req.body.address
+        event.price = req.body.price
+        await event.save()
+
+        return res.status(200).json({event, errors: []})
+    },
+);
+
 app.get(
     '/payment/list',
     async (req, res) => {
@@ -209,6 +252,25 @@ app.post(
             price: req.body.price
         }).then(payment => res.status(200).json({ payment, errors: [] }));
 
+    },
+);
+
+app.post(
+    '/payment/edit',
+    async (req, res) => {
+        // Finds the validation errors in this request and wraps them in an object with handy functions
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const payment = Payment.findOne({ id: req.body.id })
+
+        payment.name = req.body.name
+        payment.price = req.body.price
+        await payment.save()
+
+        return res.status(200).json({payment, errors: []})
     },
 );
 
@@ -241,6 +303,28 @@ app.post(
             name: req.body.name
         }).then(meeting => res.status(200).json({ meeting, errors: [] }));
 
+    },
+);
+
+app.post(
+    '/meeting/edit',
+    async (req, res) => {
+        // Finds the validation errors in this request and wraps them in an object with handy functions
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const meeting = Meeting.findOne({ id: req.body.id })
+
+        meeting.name = req.body.name
+        meeting.accept = req.body.accept
+        meeting.members = req.body.members
+        meeting.address = req.body.address
+        meeting.date = req.body.date
+        await meeting.save()
+
+        return res.status(200).json({meeting, errors: []})
     },
 );
 
