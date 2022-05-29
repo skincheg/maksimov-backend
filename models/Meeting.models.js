@@ -15,6 +15,14 @@ const schema = new Schema({
         type: String
     }, name: {
         type: String
+    }, speaker: {
+        type: String
+    }, agree: {
+        type: String
+    }, versus: {
+        type: String
+    }, abstain: {
+        type: String
     }
 })
 
