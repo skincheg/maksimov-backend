@@ -221,6 +221,7 @@ app.post(
         event.date = req.body.date
         event.address = req.body.address
         event.price = req.body.price
+        event.accept = req.body.accept
         await event.save()
 
         return res.status(200).json({event, errors: []})

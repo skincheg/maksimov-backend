@@ -13,6 +13,8 @@ const schema = new Schema({
         type: String
     }, price : {
         type: String
+    }, accept: {
+        type: Boolean
     }
 })
 
