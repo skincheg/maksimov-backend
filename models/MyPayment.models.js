@@ -12,7 +12,8 @@ const schema = new Schema({
     }, userId: {
         type: Number
     }, accept: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 })
 

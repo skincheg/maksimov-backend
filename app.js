@@ -280,8 +280,13 @@ app.post(
 app.get(
     '/mypayment/list',
     async (req, res) => {
-        const payment = await MyPayment.find({ userId: req.query.userId })
-        return res.status(200).json({ payment });
+        if (req.query.admin === 'true') {
+            const payment = await MyPayment.find({ accept: false })
+            return res.status(200).json({ payment });
+        } else {
+            const payment = await MyPayment.find({ userId: req.query.userId })
+            return res.status(200).json({ payment });
+        }
     }
 );
 
