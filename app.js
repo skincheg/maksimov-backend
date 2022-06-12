@@ -315,8 +315,8 @@ app.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const payment = await MyPayment.find({ name: req.body.name })
-        
+        const payment = await MyPayment.findOne({ name: req.body.name })
+
         payment.accept = true
         await payment.save()
         return res.status(200).json({ payment });
