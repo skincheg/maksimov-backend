@@ -7,6 +7,7 @@ const Staff = require('./models/Staff.models')
 const Event = require('./models/Event.models')
 const Order = require('./models/Order.models')
 const Payment = require('./models/Payment.models')
+const MyPayment = require('./models/MyPayment.models')
 const Meeting = require('./models/Meeting.models')
 const app = express()
 const bodyParser = require('body-parser')
@@ -273,6 +274,35 @@ app.post(
         await payment.save()
 
         return res.status(200).json({payment, errors: []})
+    },
+);
+
+app.get(
+    '/mypayment/list',
+    async (req, res) => {
+        const payment = await MyPayment.find({ userId: req.query.userId })
+        return res.status(200).json({ payment });
+    }
+);
+
+app.post(
+    '/mypayment/add',
+    async (req, res) => {
+        // Finds the validation errors in this request and wraps them in an object with handy functions
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const landmarkId = +new Date()
+
+        MyPayment.create({
+            id: landmarkId,
+            name: req.body.name,
+            price: req.body.price,
+            userId: req.body.userId
+        }).then(payment => res.status(200).json({ payment, errors: [] }));
+
     },
 );
 
