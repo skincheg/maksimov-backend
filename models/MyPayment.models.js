@@ -11,6 +11,8 @@ const schema = new Schema({
         type: String
     }, userId: {
         type: Number
+    }, accept: {
+        type: Boolean
     }
 })
 

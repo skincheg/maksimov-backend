@@ -306,6 +306,24 @@ app.post(
     },
 );
 
+app.post(
+    '/mypayment/accept',
+    async (req, res) => {
+        // Finds the validation errors in this request and wraps them in an object with handy functions
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const payment = await MyPayment.find({ name: req.body.name })
+        
+        payment.accept = true
+        await payment.save()
+        return res.status(200).json({ payment });
+
+    },
+);
+
 app.get(
     '/meeting/list',
     async (req, res) => {
