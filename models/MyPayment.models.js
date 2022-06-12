@@ -14,4 +14,4 @@ const schema = new Schema({
     }
 })
 
-module.exports = model('Payment', schema)
+module.exports = model('MyPayment', schema)
